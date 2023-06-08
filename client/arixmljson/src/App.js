@@ -1,15 +1,17 @@
-import Transform from './components/Transform';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Home from './Pages/Home';
+import Generate from './Pages/Generate';
 
 function App() {
   return (
     <>
-    <div className="App">
-      <h1>Data to JSON</h1>
-      <Transform />
-      <h1>Data to XML</h1>
-      <Transform />
-    </div>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/generate' element={<Generate />}></Route>
+        </Routes>
+      </Router>
     </>
   );
 }
