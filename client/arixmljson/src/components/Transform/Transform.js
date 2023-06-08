@@ -23,7 +23,8 @@ import './Transform.css'
     return (
       <div>
         <a className='generate-button' href="/generate">Generate</a>
-        <button className='load-button'>Load</button>
+        <label for="load-btn" class="load-button">Load</label>
+        <input id='load-btn' type='file'></input>
       </div>
     )
   }
