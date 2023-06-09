@@ -2,3 +2,11 @@
   text-align: center;
   margin-top: 15%;
 }
+
+:root {
+  background-color: #202020;
+}
+
+h1, label {
+  color: white;
+}

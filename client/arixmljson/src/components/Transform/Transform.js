@@ -19,14 +19,14 @@ import './Transform.css'
   }
 });*/
 
-  const Transform = () => {
-    return (
-      <div>
-        <a className='generate-button' href="/generate">Generate</a>
-        <label for="load-btn" class="load-button">Load</label>
-        <input id='load-btn' type='file'></input>
-      </div>
-    )
-  }
+const Transform = () => {
+  return (
+    <div>
+      <a className='generate-button' href="/generate">Generate</a>
+      <label for="load-btn" class="load-button">Load</label>
+      <input id='load-btn' type='file'></input>
+    </div>
+  )
+}
 
-  export default Transform
+export default Transform
