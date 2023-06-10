@@ -9,4 +9,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get("/generate")
+  getPathFile(): void {
+    return this.appService.getPathFile();
+  }
+
 }

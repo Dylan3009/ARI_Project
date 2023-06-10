@@ -2,6 +2,19 @@ import React from 'react'
 import './Generate.css'
 
 function Generate() {
+
+  const handleClick = () => {
+    fetch('http://localhost:3001/generate', {
+      method: 'GET',
+    }, [])
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className='generate-div'>
       <a className='btn-back' href="/">Back</a>
@@ -24,9 +37,10 @@ function Generate() {
         <label>Telefono</label>
         <input type="number" name="phone" />
       </div>
-      <input className='btn-generate' type="submit" value="Generar" />
+      <label for="btn-generate" class="button-generate">Generar</label>
+      <input id='btn-generate' type='file' onClick={handleClick}></input>
     </div>
   )
-}
+} 
 
 export default Generate

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+const path = require('node:path');
 
 const openDire = () => {
   var fs = require("fs");
@@ -10,7 +11,11 @@ const openDire = () => {
 @Injectable()
 export class AppService {
   getHello(): string {
-    openDire();
     return 'Hello World!';
+  }
+
+  getPathFile(): void {
+    openDire();
+    console.log(__filename);
   }
 }
