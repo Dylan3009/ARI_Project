@@ -32,7 +32,7 @@ export class DatajsonController {
   
       const obj: any = {};
       for (let j = 0; j < headers.length; j++) {
-        if (headers[j] === "interests\r") {
+        if (headers[j] === "poligono") {
           obj[headers[j]] = values.slice(j).filter(Boolean);
           break;
         }

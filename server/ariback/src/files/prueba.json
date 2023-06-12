@@ -1,12 +1,26 @@
 [
   {
-    "nombre": "hola",
-    "descripcion": "comoestas",
-    "otracosa": "bien"
+    "documento": "08111567-7",
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "tarjeta": "123456789",
+    "tipo": "ELITE",
+    "telefono": "8080222",
+    "poligono": [
+      "-90 17",
+      "85 25"
+    ]
   },
   {
-    "nombre": "XD",
-    "descripcion": "yaesta",
-    "otracosa": "conpoyo"
+    "documento": "11111111-7",
+    "nombre": "Pedro",
+    "apellido": "Gomez",
+    "tarjeta": "987654321",
+    "tipo": "ELITE",
+    "telefono": "22228080",
+    "poligono": [
+      "-17 90",
+      "25 85"
+    ]
   }
 ]

@@ -1,0 +1,37 @@
+[
+  {
+    "name": "name",
+    "age": "age",
+    "email": "email",
+    "interests": [
+      "interests",
+      "John Smith",
+      "30"
+    ]
+  },
+  {
+    "name": "john@example.com",
+    "age": "sports",
+    "email": "music",
+    "interests": [
+      "Jane Doe",
+      "25",
+      "jane@example.com"
+    ]
+  },
+  {
+    "name": "reading",
+    "age": "movies",
+    "email": "Alex Johnson",
+    "interests": [
+      "35",
+      "alex@example.com",
+      "travelling"
+    ]
+  },
+  {
+    "name": "cooking",
+    "age": "gardening\r\n",
+    "interests": []
+  }
+]
