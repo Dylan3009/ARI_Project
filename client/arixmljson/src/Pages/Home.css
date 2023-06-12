@@ -21,7 +21,8 @@ a:hover {
 }
 
 input[type="file"] {
-  display: none;
+  color: #37ce3c;
+  /* display: none; */
 }
 
 .convert-button {

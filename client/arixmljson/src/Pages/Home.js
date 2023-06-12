@@ -2,33 +2,45 @@ import React from 'react'
 import './Home.css'
 
 const Home = () => {
-  
-  const handleClick = () => {
-    fetch('http://localhost:3001/generate', {
-      method: 'GET',
-    }, [])
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    console.log(file);
+    console.log(formData);
+
+    fetch('http://localhost:3001/convert/json', {
+      method: 'POST',
+      body: formData,
+      withCredentials: true,    
+      crossorigin: true,    
+      mode: 'no-cors',  
+    }).then(response => {
+      if (response.ok) {
+        console.log('Archivo enviado con éxito');
+      } else {
+        console.error('Error al enviar el archivo');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
 
   return (
     <div className="home">
       <h1>Text to JSON --- JSON to Text</h1>
-      {/* <a className='generate-button' href="/">Generate</a> */}
-      <label for="textJson-btn" class="convert-button">Text to JSON</label>
-      <input id='textJson-btn' type='file' onClick={handleClick}></input>
-      <label for="json-btn" class="convert-button">JSON to Text</label>
-      <input id='json-btn' type='file' onClick={handleClick}></input>
+      <label htmlFor="textJson-btn" className="convert-button">Text to JSON</label>
+      <input id='textJson-btn' type='file' onChange={handleFileChange}></input>
+      <label htmlFor="json-btn" className="convert-button">JSON to Text</label>
+      <input id='json-btn' type='file' onChange={handleFileChange}></input>
       <h1>Text to XML --- XML to Text</h1>
-      {/* <a className='generate-button' href="/">Generate</a> */}
-      <label for="textXml-btn" class="convert-button">Text to XML</label>
-      <input id='textXml-btn' type='file' onClick={handleClick}></input>
-      <label for="xml-btn" class="convert-button">XML to Text</label>
-      <input id='xml-btn' type='file' onClick={handleClick}></input>
+      <label htmlFor="textXml-btn" className="convert-button">Text to XML</label>
+      <input id='textXml-btn' type='file' onChange={handleFileChange}></input>
+      <label htmlFor="xml-btn" className="convert-button">XML to Text</label>
+      <input id='xml-btn' type='file' onChange={handleFileChange}></input>
     </div>
   )
 }
