@@ -72,9 +72,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="file"] {
+/* input[type="file"] {
     display: none;
-}
+} */
 
 .button-generate{
     border: 1px solid #ccc;
