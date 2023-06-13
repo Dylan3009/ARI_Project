@@ -3,19 +3,22 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { Express } from 'express';
 import { log } from 'console';
+import { join } from 'path';
 //import * as path from 'path';
 
 @Controller('convert')
 export class DatajsonController {
+
+  @Get('json')
+  getHello(): string {
+    return 'XD!';
+  }
+
   @Post('json')
   @UseInterceptors(FileInterceptor('file'))
-  async convertToJson(@UploadedFile() file: Express.Multer.File) {
-    //const filename = process.argv[2];
-    // const filename: string = "./src/files/prueba.txt";
-    //const filename: string = file.buffer.toString();
-    const filePath = file.path;
-
-    const fileText: string = fs.readFileSync(filePath).toString();
+    async convertToJson(@UploadedFile() file) {
+    const filename: string = `./src/files/${file.originalname}`;
+    const fileText: string = fs.readFileSync(filename).toString();
     const allLines: string[] = fileText.split("\r\n");
 
     const headers: string[] = allLines[0].split(',');
@@ -42,9 +45,10 @@ export class DatajsonController {
   
     const jsonResult: string = JSON.stringify(result, null, 2);
     console.log(jsonResult);
-    const outputFilename = file.path.replace(".txt", ".json");
-    // const outputFilename = filename.replace(".txt", ".json");
+    const outputFilename = filename.replace(".txt", ".json");
     fs.writeFileSync(outputFilename, jsonResult);
+
+    //return jsonResult;
     
   }
 }

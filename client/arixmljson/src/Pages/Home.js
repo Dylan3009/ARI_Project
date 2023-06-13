@@ -17,10 +17,10 @@ const Home = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
     try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
       await axios.post('http://localhost:3001/convert/json', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
