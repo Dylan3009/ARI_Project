@@ -9,7 +9,8 @@ import { MulterModule } from '@nestjs/platform-express';
   imports: [DatajsonModule
     // ,
     // MulterModule.register({
-    //   dest: './src/files', // Carpeta donde se guardarán los archivos subidos
+    //   dest: './src/files', single: 'file.txt'
+     // Carpeta donde se guardarán los archivos subidos
     // }),
   ],
   controllers: [AppController],

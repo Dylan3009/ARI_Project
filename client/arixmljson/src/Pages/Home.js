@@ -32,6 +32,16 @@ const Home = () => {
       console.error('Error al enviar el archivo:', error.message);
     }
   };
+
+  const goToNextPage = () => {
+    axios.get('http://localhost:3001/convert/json')
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  };
   
   return (
     <div className="home">
@@ -46,6 +56,7 @@ const Home = () => {
       <input id='textXml-btn' type='file' onChange={handleFileChange}></input>
       <label htmlFor="xml-btn" className="convert-button">XML to Text</label>
       <input id='xml-btn' type='file' onChange={handleFileChange}></input>
+      <a href="/convert/json" onClick={goToNextPage}>Pasar a la otra XD</a>
     </div>
   )
 }

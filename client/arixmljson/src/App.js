@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Home />}></Route>
-          <Route path='/generate' element={<Generate />}></Route>
+          <Route path='/convert/json' element={<Generate />}></Route>
         </Routes>
       </Router>
     </>
