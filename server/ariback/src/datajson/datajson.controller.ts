@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { Express } from 'express';
@@ -29,7 +29,7 @@ export class DatajsonController {
       })
     }
   ))
-   async convertToJson(@UploadedFile() file: Express.Multer.File) {
+   async convertToJson(@UploadedFile() file: Express.Multer.File, @Res() response) {
 
     //const filename: string = `./src/files/${file.originalname}`;
     const filename: string = `./src/files/${file.filename}`;
@@ -48,7 +48,7 @@ export class DatajsonController {
 
       const obj: any = {};
       for (let j = 0; j < headers.length; j++) {
-        if (headers[j] === "interests\r") {
+        if (headers[j] === "poligono") {
           obj[headers[j]] = values.slice(j).filter(Boolean);
           break;
         }
@@ -63,7 +63,7 @@ export class DatajsonController {
     const outputFilename = filename.replace(".txt", ".json");
     fs.writeFileSync(outputFilename, jsonResult);
 
-    //return jsonResult;
+    response.send(jsonResult);
 
   }
 }
