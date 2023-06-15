@@ -51,7 +51,6 @@ export class DatajsonController {
       for (let j = 0; j < headers.length; j++) {
         if (headers[j] === "tarjeta") {
           const tarjetaCifrada = AES.encrypt(values[i], "CLAVE").toString();
-          //const tarjetaDescifraa = decryptValue(tarjetaCifrada);
           obj[headers[j]] = tarjetaCifrada;
         } else if (headers[j] === "poligono") {
           obj[headers[j]] = values.slice(j).filter(Boolean);

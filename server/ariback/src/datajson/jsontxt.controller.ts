@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { Express } from 'express';
 import * as multer from 'multer';
 import { extname, join } from 'path';
+var AES = require("crypto-js/aes");
 //import * as path from 'path';
 
 @Controller('convert')
@@ -36,7 +37,7 @@ export class JsonTextController {
                 item.documento,
                 item.nombre,
                 item.apellido,
-                item.tarjeta,
+                AES.decrypt(item.tarjeta, "CLAVE").toString(),
                 item.tipo,
                 item.telefono,
                 ...item.poligono
