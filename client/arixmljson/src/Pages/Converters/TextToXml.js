@@ -66,7 +66,7 @@ const TextToJson = () => {
 
     const handleDownloadFile = () => {
         if (downloadLink) {
-          saveAs(downloadLink, selectedFile.name.replace('.txt', '.json'));
+          saveAs(downloadLink, selectedFile.name.replace('.txt', '.xml'));
         }
     };
 
