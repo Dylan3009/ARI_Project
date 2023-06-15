@@ -11,11 +11,11 @@
     transition: background-color .2s ease-in-out;
 }   
 
-#json-btn[type="file"]{
+#textJson-btn[type="file"]{
     color: white;        
 }
 
-#json-btn[type="file"]::file-selector-button {
+#textJson-btn[type="file"]::file-selector-button {
     margin-right: 20px;
     border: none;
     background: #084cdf;
@@ -26,7 +26,7 @@
     transition: background .2s ease-in-out;
   }
 
-#json-btn[type="file"]::file-selector-button:hover{
+#textJson-btn[type="file"]::file-selector-button:hover{
     background: #0d45a5;
 }
 
