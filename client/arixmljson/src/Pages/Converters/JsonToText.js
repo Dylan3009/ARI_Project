@@ -8,64 +8,50 @@ const JsonToText = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [textFile, setTextFile] = useState('');
   const [jsonFile, setJsonFile] = useState('');
-  const [downloadLink, setDownloadLink] = useState(null);
 
   const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      setSelectedFile(file);
+    const file = event.target.files[0];
+    setSelectedFile(file);
   };
 
   const handleFileUpload = async () => {
-      if (!selectedFile) {
-          console.error('No se ha seleccionado ningún archivo');
-          return;
-      }
+    if (!selectedFile) {
+      console.error('No se ha seleccionado ningún archivo');
+      return;
+    }
 
-      try {
-          const formData = new FormData();
-          formData.append('file', selectedFile);
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
 
-          const response = await axios.post('http://localhost:3001/convert/json/text', formData, {
-              headers: {
-                  'Content-Type': 'multipart/form-data'
-              }
-          });
-          console.log('Archivo enviado con éxito');
+      const response = await axios.post('http://localhost:3001/convert/json/text', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log('Archivo enviado con éxito');
 
-          const convertedData = response.data;
+      const convertedData = response.data;
 
-          setJsonFile(JSON.stringify(selectedFile, null, 2))
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        setJsonFile(content);
+      };
+      reader.readAsText(selectedFile);
 
-          const reader = new FileReader();
-          reader.onload = (e) => {
-              const content = e.target.result;
-              setTextFile(content);
-          };
-          reader.readAsText(convertedData);
+      setTextFile(convertedData);
 
-          // const downloadUrl = URL.createObjectURL(
-          //     new Blob([JSON.stringify(convertedData, null, 2)], {
-          //         type: 'application/json'
-          //     })
-          // );
-          // setDownloadLink(downloadUrl);
-
-          const downloadUrl = URL.createObjectURL(
-            new Blob([convertedData], {
-                type: 'text/plain'
-            })
-          );
-          setDownloadLink(downloadUrl);
-
-      } catch (error) {
-          console.error('Error al enviar el archivo:', error.message);
-      }
+    } catch (error) {
+      console.error('Error al enviar el archivo:', error.message);
+    }
   };
 
   const handleDownloadFile = () => {
-      if (downloadLink) {
-        saveAs(downloadLink, selectedFile.name.replace('.json', '.txt'));
-      }
+    if (textFile) {
+      const blob = new Blob([textFile], { type: 'text/plain' });
+      saveAs(blob, selectedFile.name.replace('.json', '.txt'));
+    }
   };
 
   return (

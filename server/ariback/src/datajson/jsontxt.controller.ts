@@ -45,11 +45,10 @@ export class JsonTextController {
             txtContent += row + "\n";
         });
 
-        console.log(txtContent);
         const outputFilename = filename.replace(".json", ".txt");
         fs.writeFileSync(outputFilename, txtContent, "utf-8");      
 
+        console.log(txtContent);
         response.send(txtContent);
-
     }
 }
