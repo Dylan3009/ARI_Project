@@ -35,11 +35,14 @@ export class DatajsonController {
     //const filename: string = `./src/files/${file.originalname}`;
     const filename: string = `./src/files/${file.filename}`;
     const fileText: string = fs.readFileSync(filename).toString();
-    const allLines: string[] = fileText.split("\r\n");
+    const allLines: string[] = fileText.split("\n");
 
     const headers: string[] = allLines[0].split(',');
 
     const result: any[] = [];
+    console.log(headers);
+    console.log(allLines);
+    console.log(allLines.length);
 
     for (let i = 1; i < allLines.length; i++) {
       const currentLine: string = allLines[i];
