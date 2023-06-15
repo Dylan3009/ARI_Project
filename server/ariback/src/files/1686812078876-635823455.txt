@@ -1,0 +1,19 @@
+Documento: 08111567-7
+Nombres: Juan
+Apellidos: Perez
+Tarjeta: 123456789
+Tipo: ELITE
+Teléfono: 8080222
+Coordenada: -90 17
+Coordenada: 85 25
+Coordenada: 25 25
+
+Documento: 11111111-7
+Nombres: Pedro
+Apellidos: Gomez
+Tarjeta: 987654321
+Tipo: ELITE
+Teléfono: 22228080
+Coordenada: -17 90
+Coordenada: 25 85
+

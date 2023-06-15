@@ -1,0 +1,11 @@
+Estudiasion: Artefactos
+
+vsc : voltaje de entrada o de alimentacion
+
+Tinkercad: Suministro 
+
+Industrias que utilizan IOT: reatil, manufactura, transporte y logistica, salud.
+
+IOT Dispositivos:
+	ESP8266: microcontrolador como arduino pero con chip integrado que permite conexion wifi.
+	Posee pines digitales que pueden trabajar como pwm.
