@@ -74,9 +74,9 @@ const TextToJson = () => {
     return (
         <div>
             <div className='divjtt'>
-                <h1>JSON to Text</h1>
-                <input id='json-btn' type='file' onChange={handleFileChange}></input>
-                <button className='convert-button' onClick={handleFileUpload}>JSON to Text</button>
+                <h1>Text to JSON</h1>
+                <input id='textJson-btn' type='file' onChange={handleFileChange}></input>
+                <button className='convert-button' onClick={handleFileUpload}>Text to JSON</button>
                 <div className='textarea-content'>
                     <textarea
                         className='textarea1'
