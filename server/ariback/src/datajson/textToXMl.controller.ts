@@ -14,6 +14,7 @@ import * as fs from 'fs';
 import { Express } from 'express';
 import * as multer from 'multer';
 import { extname, join } from 'path';
+var AES = require("crypto-js/aes");
 //import * as path from 'path';
 
 @Controller('convert')
@@ -54,6 +55,7 @@ export class TextXmlController {
         const nombres = values[1];
         const apellidos = values[2];
         const tarjeta = values[3];
+        const tarjetaCifrada = AES.encrypt(tarjeta, "CLAVE").toString();
         const tipo = values[4];
         const telefono = values[5];
         const poligono = values.slice(6).map((coordenada) => `<${coordenada}>`);
@@ -62,7 +64,7 @@ export class TextXmlController {
         xml += `    <documento>${documento}</documento>\n`;
         xml += `    <nombres>${nombres}</nombres>\n`;
         xml += `    <apellidos>${apellidos}</apellidos>\n`;
-        xml += `    <tarjeta>${tarjeta}</tarjeta>\n`;
+        xml += `    <tarjeta>${tarjetaCifrada}</tarjeta>\n`;
         xml += `    <tipo>${tipo}</tipo>\n`;
         xml += `    <telefono>${telefono}</telefono>\n`;
         xml += `    <poligono>\n`;
