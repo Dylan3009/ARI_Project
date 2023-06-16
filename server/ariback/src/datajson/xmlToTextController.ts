@@ -71,9 +71,9 @@ export class XmlToTxtController {
       return '';
     }
   
-    // Extrae los datos necesarios del objeto data y construye el texto en formato TXT
+    // Extrae los datos necesarios del objeto data y construye el texto en formato CSV
     const clientes = data.clientes.cliente;
-    let txtResult = '';
+    let csvResult = 'documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n';
   
     for (const cliente of clientes) {
       const documento = cliente.documento[0];
@@ -83,22 +83,15 @@ export class XmlToTxtController {
       const tipo = cliente.tipo[0];
       const telefono = cliente.telefono[0];
   
-      txtResult += `Documento: ${documento}\n`;
-      txtResult += `Nombres: ${nombres}\n`;
-      txtResult += `Apellidos: ${apellidos}\n`;
-      txtResult += `Tarjeta: ${tarjeta}\n`;
-      txtResult += `Tipo: ${tipo}\n`;
-      txtResult += `Teléfono: ${telefono}\n`;
-  
       const poligono = cliente.poligono[0].coordenada;
-      for (const coordenada of poligono) {
-        txtResult += `Coordenada: ${coordenada}\n`;
-      }
+      const coordenadas = poligono.join(',');
   
-      txtResult += '\n'; // Agregar una línea en blanco entre cada cliente
+      const clienteData = `${documento},${nombres},${apellidos},${tarjeta},${tipo},${telefono},${coordenadas}\n`;
+      csvResult += clienteData;
     }
   
-    return txtResult;
+    return csvResult;
   }
+  
   
 }
