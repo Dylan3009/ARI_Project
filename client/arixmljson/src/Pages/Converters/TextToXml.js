@@ -17,13 +17,18 @@ const TextToJson = () => {
   };
 
   const [encryptionKey, setEncryptionKey] = useState("");
+  const [delimiter, setDelimiter] = useState(";");
 
   const handleKeyChange = (event) => {
     setEncryptionKey(event.target.value);
   };
-  
 
-  const handleFileUpload = async (key) => {
+  const handleDelimiter = (event) => {
+    setDelimiter(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleFileUpload = async (key,delimiter) => {
     if (!selectedFile) {
       console.error("No se ha seleccionado ningún archivo");
       return;
@@ -33,6 +38,7 @@ const TextToJson = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("key", key);
+      formData.append("delimiter",delimiter);
 
       const response = await axios.post(
         "http://localhost:3001/convert/text/xml",
@@ -114,9 +120,15 @@ const TextToJson = () => {
               value={encryptionKey}
               onChange={handleKeyChange}
             />
+            <select 
+            value={delimiter}
+            onChange={handleDelimiter}>
+              <option value=";">;</option>
+              <option value=",">,</option>
+            </select>
             <button
               onClick={() => {
-                handleFileUpload(encryptionKey);
+                handleFileUpload(encryptionKey,delimiter);
               }}
             >
               Aceptar

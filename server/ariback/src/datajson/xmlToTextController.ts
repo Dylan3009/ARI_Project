@@ -12,7 +12,7 @@ import * as fs from 'fs';
 import * as xml2js from 'xml2js';
 import { Express, Response } from 'express';
 import * as multer from 'multer';
-import { extname } from 'path';
+import { delimiter, extname } from 'path';
 var AES = require("crypto-js/aes");
 import { enc } from 'crypto-js';
 
@@ -47,17 +47,20 @@ export class XmlToTxtController {
   async convertToTxt(
     @UploadedFile() file: Express.Multer.File,
     @Res() response: Response,
-    @Body('key') encryptionKey: string
+    @Body('key') encryptionKey: string,
+    @Body('delimiter') delimiter: string
   ) {
     const filename: string = `./src/files/${file.filename}`;
     const fileText: string = fs.readFileSync(filename).toString();
     let txtResult: string = '';
+    console.log(encryptionKey);
+    console.log(delimiter);
     xml2js.parseString(fileText, (err, result) => {
       if (err) {
         console.error('Error al parsear el archivo XML:', err);
         return;
       }
-      txtResult = this.convertingToTxt(result, encryptionKey);
+      txtResult = this.convertingToTxt(result, encryptionKey,delimiter);
     });
 
     if (!txtResult) {
@@ -71,7 +74,7 @@ export class XmlToTxtController {
     response.send(txtResult);
   }
 
-  private convertingToTxt(data: any, encryptionKey): string {
+  private convertingToTxt(data: any, encryptionKey,delimiter): string {
     // Verifica si el objeto data tiene la estructura adecuada según tu archivo XML
     if (!data || !data.clientes || !data.clientes.cliente) {
       console.error('Estructura de datos XML incorrecta');
@@ -80,7 +83,7 @@ export class XmlToTxtController {
   
     // Extrae los datos necesarios del objeto data y construye el texto en formato CSV
     const clientes = data.clientes.cliente;
-    let csvResult = 'documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n';
+    let csvResult = `documento${delimiter}nombre${delimiter}apellido${delimiter}tarjeta${delimiter}tipo${delimiter}telefono${delimiter}poligono\n`;
   
     for (const cliente of clientes) {
       const tarjetaDesencriptada = CryptoJS.AES.decrypt(cliente.tarjeta[0], encryptionKey, { iv: iv }).toString(CryptoJS.enc.Utf8);
@@ -91,9 +94,9 @@ export class XmlToTxtController {
       const tipo = cliente.tipo[0];
       const telefono = cliente.telefono[0];
       const poligono = cliente.poligono[0].coordenada;
-      const coordenadas = poligono.join(',');
+      const coordenadas = poligono.join(delimiter);
   
-      const clienteData = `${documento},${nombres},${apellidos},${tarjeta},${tipo},${telefono},${coordenadas}\n`;
+      const clienteData = `${documento}${delimiter}${nombres}${delimiter}${apellidos}${delimiter}${tarjeta}${delimiter}${tipo}${delimiter}${telefono}${delimiter}${coordenadas}\n`;
       csvResult += clienteData;
     }
   

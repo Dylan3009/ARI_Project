@@ -44,7 +44,8 @@ export class TextXmlController {
   async convertToXML(
     @UploadedFile() file: Express.Multer.File,
     @Res() response,
-    @Body('key') encryptionKey: string
+    @Body('key') encryptionKey: string,
+    @Body('delimiter') delimiter: string
 , // Agregar esta línea para recibir el valor de la clave
   ) {
     const filename: string = `./src/files/${file.filename}`;
@@ -52,6 +53,7 @@ export class TextXmlController {
     const allLines = fileText.split('\n');
 
     console.log(encryptionKey);
+    console.log(delimiter);
 
     let xml = '<clientes>\n';
 
@@ -59,7 +61,7 @@ export class TextXmlController {
     for (let i = 1; i < allLines.length; i++) {
       const line = allLines[i];
       if (line.trim() !== '') {
-        const values = line.split(',');
+        const values = line.split(delimiter);
 
         const documento = values[0];
         const nombres = values[1];
@@ -89,8 +91,6 @@ export class TextXmlController {
     }
 
     xml += '</clientes>';
-
-    console.log(xml);
     response.send(xml);
   }
 }
