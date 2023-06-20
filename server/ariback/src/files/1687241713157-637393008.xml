@@ -1,0 +1,26 @@
+<clientes>
+  <cliente>
+    <documento>08111567-7</documento>
+    <nombres>Juan</nombres>
+    <apellidos>Perez</apellidos>
+    <tarjeta>U2FsdGVkX19cTJ8eimNI0ZY7U7S93O53QOBo6XR8aAk=</tarjeta>
+    <tipo>ELITE</tipo>
+    <telefono>8080222</telefono>
+    <poligono>
+      <coordenada><-90 17></coordenada>
+      <coordenada><85 25></coordenada>
+    </poligono>
+  </cliente>
+  <cliente>
+    <documento>11111111-7</documento>
+    <nombres>Pedro</nombres>
+    <apellidos>Gomez</apellidos>
+    <tarjeta>U2FsdGVkX1/Wn7H1n0GyBuIlevWAYmoFehiEdSCswHs=</tarjeta>
+    <tipo>ELITE</tipo>
+    <telefono>22228080</telefono>
+    <poligono>
+      <coordenada><-17 90></coordenada>
+      <coordenada><25 85></coordenada>
+    </poligono>
+  </cliente>
+</clientes>null2

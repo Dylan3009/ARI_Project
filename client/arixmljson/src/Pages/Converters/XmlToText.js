@@ -8,13 +8,20 @@ const XmlToTxt = () => {
   const [xmlFile, setXmlFile] = useState("");
   const [txtFile, setTxtFile] = useState("");
   const [downloadLink, setDownloadLink] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
-  const handleFileUpload = async () => {
+  const [encryptionKey, setEncryptionKey] = useState("");
+
+  const handleKeyChange = (event) => {
+    setEncryptionKey(event.target.value);
+  };
+
+  const handleFileUpload = async (key) => {
     if (!selectedFile) {
       console.error("No se ha seleccionado ningún archivo");
       return;
@@ -23,6 +30,7 @@ const XmlToTxt = () => {
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
+      formData.append("key", key);
 
       const response = await axios.post(
         "http://localhost:3001/convert/txt",
@@ -39,11 +47,11 @@ const XmlToTxt = () => {
       setTxtFile(convertedData);
 
       const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                setXmlFile(content);
-            };
-            reader.readAsText(selectedFile);
+      reader.onload = (e) => {
+        const content = e.target.result;
+        setXmlFile(content);
+      };
+      reader.readAsText(selectedFile);
 
       const downloadUrl = URL.createObjectURL(
         new Blob([convertedData], { type: "text/plain" })
@@ -52,6 +60,12 @@ const XmlToTxt = () => {
     } catch (error) {
       console.error("Error al enviar el archivo:", error.message);
     }
+      // Cerrar el modal
+      setShowModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
   const handleDownloadFile = () => {
@@ -65,9 +79,32 @@ const XmlToTxt = () => {
       <div className="divjtt">
         <h1>XML to Text</h1>
         <input id="xml-btn" type="file" onChange={handleFileChange} />
-        <button className="convert-button" onClick={handleFileUpload}>
+        <button
+          className="convert-button"
+          onClick={() => {
+            handleOpenModal();
+          }}
+        >
           Convert to Text
         </button>
+        {/* Modal */}
+        {showModal && (
+          <div className="modal">
+            <h2>Ingrese la clave para descifrar la tarjeta de crédito</h2>
+            <input
+              type="password"
+              value={encryptionKey}
+              onChange={handleKeyChange}
+            />
+            <button
+              onClick={() => {
+                handleFileUpload(encryptionKey);
+              }}
+            >
+              Aceptar
+            </button>
+          </div>
+        )}
         <div className="textarea-content">
           <textarea
             className="textarea1"

@@ -6,6 +6,11 @@ import * as multer from 'multer';
 import { extname, join } from 'path';
 var AES = require("crypto-js/aes");
 //import * as path from 'path';
+const CryptoJS = require('crypto-js');
+
+const key = 'miClaveSecreta';
+const iv = 'miVectorDeInicializacion';
+
 
 @Controller('convert')
 export class JsonTextController {
@@ -37,7 +42,7 @@ export class JsonTextController {
                 item.documento,
                 item.nombre,
                 item.apellido,
-                AES.decrypt(item.tarjeta, "CLAVE").toString(),
+                CryptoJS.AES.decrypt(item.tarjeta, key, { iv: iv }).toString(CryptoJS.enc.Utf8),
                 item.tipo,
                 item.telefono,
                 ...item.poligono
