@@ -16,6 +16,11 @@ import * as multer from 'multer';
 import { extname, join } from 'path';
 var AES = require("crypto-js/aes");
 //import * as path from 'path';
+const CryptoJS = require('crypto-js');
+
+const key = 'miClaveSecreta';
+const iv = 'miVectorDeInicializacion';
+
 
 @Controller('convert')
 export class TextXmlController {
@@ -55,7 +60,7 @@ export class TextXmlController {
         const nombres = values[1];
         const apellidos = values[2];
         const tarjeta = values[3];
-        const tarjetaCifrada = AES.encrypt(tarjeta, "CLAVE").toString();
+        const tarjetaCifrada = CryptoJS.AES.encrypt(tarjeta, key, { iv: iv }).toString();
         const tipo = values[4];
         const telefono = values[5];
         const poligono = values.slice(6).map((coordenada) => `${coordenada}`);

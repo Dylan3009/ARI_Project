@@ -15,6 +15,11 @@ import { extname } from 'path';
 var AES = require("crypto-js/aes");
 import { enc } from 'crypto-js';
 
+const CryptoJS = require('crypto-js');
+
+const key = 'miClaveSecreta';
+const iv = 'miVectorDeInicializacion';
+
 @Controller('convert')
 export class XmlToTxtController {
   @Get('txt')
@@ -77,7 +82,7 @@ export class XmlToTxtController {
     let csvResult = 'documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n';
   
     for (const cliente of clientes) {
-      const tarjetaDesencriptada = AES.decrypt(cliente.tarjeta[0], 'CLAVE').toString(enc.Utf8);
+      const tarjetaDesencriptada = CryptoJS.AES.decrypt(cliente.tarjeta[0], key, { iv: iv }).toString(CryptoJS.enc.Utf8);
       const documento = cliente.documento[0];
       const nombres = cliente.nombres[0];
       const apellidos = cliente.apellidos[0];
