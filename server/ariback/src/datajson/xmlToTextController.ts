@@ -12,6 +12,8 @@ import * as xml2js from 'xml2js';
 import { Express, Response } from 'express';
 import * as multer from 'multer';
 import { extname } from 'path';
+var AES = require("crypto-js/aes");
+import { enc } from 'crypto-js';
 
 @Controller('convert')
 export class XmlToTxtController {
@@ -43,7 +45,6 @@ export class XmlToTxtController {
   ) {
     const filename: string = `./src/files/${file.filename}`;
     const fileText: string = fs.readFileSync(filename).toString();
-
     let txtResult: string = '';
     xml2js.parseString(fileText, (err, result) => {
       if (err) {
@@ -76,13 +77,13 @@ export class XmlToTxtController {
     let csvResult = 'documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n';
   
     for (const cliente of clientes) {
+      const tarjetaDesencriptada = AES.decrypt(cliente.tarjeta[0], 'CLAVE').toString(enc.Utf8);
       const documento = cliente.documento[0];
       const nombres = cliente.nombres[0];
       const apellidos = cliente.apellidos[0];
-      const tarjeta = cliente.tarjeta[0];
+      const tarjeta = tarjetaDesencriptada;
       const tipo = cliente.tipo[0];
       const telefono = cliente.telefono[0];
-  
       const poligono = cliente.poligono[0].coordenada;
       const coordenadas = poligono.join(',');
   
