@@ -31,7 +31,7 @@ const TextToJson = () => {
                 }
             });
             console.log('Archivo enviado con éxito');
-
+    
             const convertedData = response.data;
 
             setXmlFile(convertedData, null, 2);
@@ -44,8 +44,8 @@ const TextToJson = () => {
             reader.readAsText(selectedFile);
 
             const downloadUrl = URL.createObjectURL(
-                new Blob([convertedData, null, 2], {
-                    type: 'application/json'
+                new Blob([convertedData], {
+                    type: 'application/xml'
                 })
             );
             setDownloadLink(downloadUrl);

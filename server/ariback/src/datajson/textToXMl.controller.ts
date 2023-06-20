@@ -58,7 +58,7 @@ export class TextXmlController {
         const tarjetaCifrada = AES.encrypt(tarjeta, "CLAVE").toString();
         const tipo = values[4];
         const telefono = values[5];
-        const poligono = values.slice(6).map((coordenada) => `<${coordenada}>`);
+        const poligono = values.slice(6).map((coordenada) => `${coordenada}`);
 
         xml += '  <cliente>\n';
         xml += `    <documento>${documento}</documento>\n`;
