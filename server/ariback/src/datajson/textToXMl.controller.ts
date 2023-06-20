@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Body,
   Req,
   Res,
   Param,
@@ -15,10 +16,10 @@ import { Express } from 'express';
 import * as multer from 'multer';
 import { extname, join } from 'path';
 var AES = require("crypto-js/aes");
+import { enc } from 'crypto-js';
 //import * as path from 'path';
 const CryptoJS = require('crypto-js');
 
-const key = 'miClaveSecreta';
 const iv = 'miVectorDeInicializacion';
 
 
@@ -43,10 +44,14 @@ export class TextXmlController {
   async convertToXML(
     @UploadedFile() file: Express.Multer.File,
     @Res() response,
+    @Body('key') encryptionKey: string
+, // Agregar esta línea para recibir el valor de la clave
   ) {
     const filename: string = `./src/files/${file.filename}`;
     const fileText: string = fs.readFileSync(filename).toString();
     const allLines = fileText.split('\n');
+
+    console.log(encryptionKey);
 
     let xml = '<clientes>\n';
 
@@ -60,7 +65,7 @@ export class TextXmlController {
         const nombres = values[1];
         const apellidos = values[2];
         const tarjeta = values[3];
-        const tarjetaCifrada = CryptoJS.AES.encrypt(tarjeta, key, { iv: iv }).toString();
+        const tarjetaCifrada = CryptoJS.AES.encrypt(tarjeta, encryptionKey, { iv: iv }).toString();
         const tipo = values[4];
         const telefono = values[5];
         const poligono = values.slice(6).map((coordenada) => `${coordenada}`);

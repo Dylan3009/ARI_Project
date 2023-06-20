@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Body,
   UploadedFile,
   UseInterceptors,
   Res,
@@ -17,7 +18,6 @@ import { enc } from 'crypto-js';
 
 const CryptoJS = require('crypto-js');
 
-const key = 'miClaveSecreta';
 const iv = 'miVectorDeInicializacion';
 
 @Controller('convert')
@@ -47,6 +47,7 @@ export class XmlToTxtController {
   async convertToTxt(
     @UploadedFile() file: Express.Multer.File,
     @Res() response: Response,
+    @Body('key') encryptionKey: string
   ) {
     const filename: string = `./src/files/${file.filename}`;
     const fileText: string = fs.readFileSync(filename).toString();
@@ -56,7 +57,7 @@ export class XmlToTxtController {
         console.error('Error al parsear el archivo XML:', err);
         return;
       }
-      txtResult = this.convertingToTxt(result);
+      txtResult = this.convertingToTxt(result, encryptionKey);
     });
 
     if (!txtResult) {
@@ -70,7 +71,7 @@ export class XmlToTxtController {
     response.send(txtResult);
   }
 
-  private convertingToTxt(data: any): string {
+  private convertingToTxt(data: any, encryptionKey): string {
     // Verifica si el objeto data tiene la estructura adecuada según tu archivo XML
     if (!data || !data.clientes || !data.clientes.cliente) {
       console.error('Estructura de datos XML incorrecta');
@@ -82,7 +83,7 @@ export class XmlToTxtController {
     let csvResult = 'documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n';
   
     for (const cliente of clientes) {
-      const tarjetaDesencriptada = CryptoJS.AES.decrypt(cliente.tarjeta[0], key, { iv: iv }).toString(CryptoJS.enc.Utf8);
+      const tarjetaDesencriptada = CryptoJS.AES.decrypt(cliente.tarjeta[0], encryptionKey, { iv: iv }).toString(CryptoJS.enc.Utf8);
       const documento = cliente.documento[0];
       const nombres = cliente.nombres[0];
       const apellidos = cliente.apellidos[0];

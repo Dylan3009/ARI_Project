@@ -1,0 +1,3 @@
+documento,nombre,apellido,tarjeta,tipo,telefono,poligono
+08111567-7,Juan,Perez,123456789,ELITE,8080222,-90 17,85 25,25 25
+11111111-7,Pedro,Gomez,987654321,ELITE,22228080,-17 90,25 85
