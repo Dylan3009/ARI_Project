@@ -1,0 +1,26 @@
+[
+  {
+    "documento": "04111567-7",
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "tarjeta": "U2FsdGVkX1/l5X+VNf8rgDDSIkPxq4JbkPp+XtovgqA=",
+    "tipo": "ELITE",
+    "telefono": "8080222",
+    "poligono": [
+      "-90 17",
+      "85 25"
+    ]
+  },
+  {
+    "documento": "11111111-7",
+    "nombre": "Pedro",
+    "apellido": "Gomez",
+    "tarjeta": "U2FsdGVkX19JOaj1CLYe3td3rjfsWLX64KZ/VgbKGmU=",
+    "tipo": "ELITE",
+    "telefono": "22228080",
+    "poligono": [
+      "-17 90",
+      "25 85"
+    ]
+  }
+]
