@@ -79,15 +79,6 @@ const TextToJson = () => {
     setShowModal(true);
   };
 
-  // const handleDownloadFile = () => {
-  //     if (downloadLink) {
-  //       const a = document.createElement('a');
-  //       a.href = downloadLink;
-  //       a.download = selectedFile.name.replace('.txt', '.json');
-  //       a.click();
-  //     }
-  //   };
-
   const handleDownloadFile = () => {
     if (downloadLink) {
       saveAs(downloadLink, selectedFile.name.replace(".txt", ".xml"));
