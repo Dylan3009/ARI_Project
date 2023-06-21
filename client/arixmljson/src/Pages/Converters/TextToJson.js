@@ -9,13 +9,26 @@ const TextToJson = () => {
     const [textFile, setTextFile] = useState('');
     const [jsonFile, setJsonFile] = useState('');
     const [downloadLink, setDownloadLink] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedFile(file);
     };
 
-    const handleFileUpload = async () => {
+    const [encryptionKey, setEncryptionKey] = useState("");
+    const [delimiter, setDelimiter] = useState(";");
+
+    const handleKeyChange = (event) => {
+        setEncryptionKey(event.target.value);
+    };
+
+    const handleDelimiter = (event) => {
+        setDelimiter(event.target.value);
+        console.log(event.target.value);
+    };
+
+    const handleFileUpload = async (key, delimiter) => {
         if (!selectedFile) {
             console.error('No se ha seleccionado ningún archivo');
             return;
@@ -24,6 +37,8 @@ const TextToJson = () => {
         try {
             const formData = new FormData();
             formData.append('file', selectedFile);
+            formData.append("key", key);
+            formData.append("delimiter", delimiter);
 
             const response = await axios.post('http://localhost:3001/convert/json', formData, {
                 headers: {
@@ -53,20 +68,17 @@ const TextToJson = () => {
         } catch (error) {
             console.error('Error al enviar el archivo:', error.message);
         }
+
+        setShowModal(false);
     };
 
-    // const handleDownloadFile = () => {
-    //     if (downloadLink) {
-    //       const a = document.createElement('a');
-    //       a.href = downloadLink;
-    //       a.download = selectedFile.name.replace('.txt', '.json');
-    //       a.click();
-    //     }
-    //   }; 
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
 
     const handleDownloadFile = () => {
         if (downloadLink) {
-          saveAs(downloadLink, selectedFile.name.replace('.txt', '.json'));
+            saveAs(downloadLink, selectedFile.name.replace('.txt', '.json'));
         }
     };
 
@@ -76,7 +88,36 @@ const TextToJson = () => {
             <div className='divjtt'>
                 <h1>Text to JSON</h1>
                 <input id='textJson-btn' type='file' onChange={handleFileChange}></input>
-                <button className='convert-button' onClick={handleFileUpload}>Text to JSON</button>
+                <button
+                    className='convert-button'
+                    onClick={() => {
+                        handleOpenModal();
+                    }}
+                >Text to JSON
+                </button>
+                {showModal && (
+                    <div className="modal">
+                        <h2>Ingrese la clave para cifrar la tarjeta de crédito</h2>
+                        <input
+                            type="password"
+                            value={encryptionKey}
+                            onChange={handleKeyChange}
+                        />
+                        <select
+                            value={delimiter}
+                            onChange={handleDelimiter}>
+                            <option value=";">;</option>
+                            <option value=",">,</option>
+                        </select>
+                        <button
+                            onClick={() => {
+                                handleFileUpload(encryptionKey, delimiter);
+                            }}
+                        >
+                            Aceptar
+                        </button>
+                    </div>
+                )}
                 <div className='textarea-content'>
                     <textarea
                         className='textarea1'

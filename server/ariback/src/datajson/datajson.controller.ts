@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Param, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { Express } from 'express';
@@ -6,6 +6,9 @@ import * as multer from 'multer';
 import { extname, join } from 'path';
 var AES = require("crypto-js/aes");
 //import * as path from 'path';
+const CryptoJS = require('crypto-js');
+
+const iv = 'miVectorDeInicializacion';
 
 @Controller('convert')
 export class DatajsonController {
@@ -30,7 +33,13 @@ export class DatajsonController {
       })
     }
   ))
-   async convertToJson(@UploadedFile() file: Express.Multer.File, @Res() response) {
+   async convertToJson(
+    @UploadedFile() file: Express.Multer.File, 
+    @Res() response,
+    @Body('key') encryptionKey: string,
+    @Body('delimiter') delimiter: string, 
+    // Agregar esta línea para recibir el valor de la clave
+    ) {
 
     //const filename: string = `./src/files/${file.originalname}`;
     const filename: string = `./src/files/${file.filename}`;
@@ -48,12 +57,13 @@ export class DatajsonController {
       const currentLine: string = allLines[i];
       if (currentLine.trim() === "") continue;
     
-      const values: string[] = currentLine.split(",");
-    
+      //const values: string[] = currentLine.split(",");
+      const values: string[] = currentLine.split(delimiter);
+
       const obj: any = {};
       for (let j = 0; j < headers.length; j++) {
         if (headers[j] === "tarjeta") {
-          const tarjetaCifrada = AES.encrypt(values[i], "CLAVE").toString();
+          const tarjetaCifrada = CryptoJS.AES.encrypt(values[i], encryptionKey, { iv: iv }).toString();
           obj[headers[j]] = tarjetaCifrada;
         } else if (headers[j] === "poligono") {
           obj[headers[j]] = values.slice(j).filter(Boolean);

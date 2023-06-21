@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Param, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as fs from 'fs';
 import { Express } from 'express';
@@ -8,7 +8,7 @@ var AES = require("crypto-js/aes");
 //import * as path from 'path';
 const CryptoJS = require('crypto-js');
 
-const key = 'miClaveSecreta';
+//const key = 'miClaveSecreta';
 const iv = 'miVectorDeInicializacion';
 
 
@@ -29,7 +29,12 @@ export class JsonTextController {
             })
         }
     ))
-    async convertToJson(@UploadedFile() file: Express.Multer.File, @Res() response) {
+    async convertToJson(
+        @UploadedFile() file: Express.Multer.File,
+        @Res() response,
+        @Body('key') encryptionKey: string,
+        @Body('delimiter') delimiter: string
+    ) {
 
         const filename: string = `./src/files/${file.filename}`;
         const fileContent = fs.readFileSync(filename, 'utf-8').toString();
@@ -37,22 +42,36 @@ export class JsonTextController {
 
         let txtContent = "documento,nombre,apellido,tarjeta,tipo,telefono,poligono\n";
 
+        // jsonData.forEach(item => {
+        //     const row = [
+        //         item.documento,
+        //         item.nombre,
+        //         item.apellido,
+        //         CryptoJS.AES.decrypt(item.tarjeta, encryptionKey, { iv: iv }).toString(CryptoJS.enc.Utf8),
+        //         item.tipo,
+        //         item.telefono,
+        //         ...item.poligono
+        //     ].join(delimiter);
+
+        //     txtContent += row + "\n";
+        // });
+
         jsonData.forEach(item => {
             const row = [
-                item.documento,
-                item.nombre,
-                item.apellido,
-                CryptoJS.AES.decrypt(item.tarjeta, key, { iv: iv }).toString(CryptoJS.enc.Utf8),
-                item.tipo,
-                item.telefono,
-                ...item.poligono
-            ].join(",");
-
+              item.documento,
+              item.nombre,
+              item.apellido,
+              CryptoJS.AES.decrypt(item.tarjeta, encryptionKey, { iv: iv }).toString(CryptoJS.enc.Utf8),
+              item.tipo,
+              item.telefono,
+              ...item.poligono
+            ].join(delimiter);
+          
             txtContent += row + "\n";
-        });
+          });
 
         const outputFilename = filename.replace(".json", ".txt");
-        fs.writeFileSync(outputFilename, txtContent, "utf-8");      
+        fs.writeFileSync(outputFilename, txtContent, "utf-8");
 
         console.log(txtContent);
         response.send(txtContent);
