@@ -46,7 +46,7 @@ export class DatajsonController {
     const fileText: string = fs.readFileSync(filename).toString();
     const allLines: string[] = fileText.split("\n");
 
-    const headers: string[] = allLines[0].split(',');
+    const headers: string[] = allLines[0].split(delimiter);
 
     const result: any[] = [];
     console.log(headers);
@@ -63,7 +63,7 @@ export class DatajsonController {
       const obj: any = {};
       for (let j = 0; j < headers.length; j++) {
         if (headers[j] === "tarjeta") {
-          const tarjetaCifrada = CryptoJS.AES.encrypt(values[i], encryptionKey, { iv: iv }).toString();
+          const tarjetaCifrada = CryptoJS.AES.encrypt(values[j], encryptionKey, { iv: iv }).toString();
           obj[headers[j]] = tarjetaCifrada;
         } else if (headers[j] === "poligono") {
           obj[headers[j]] = values.slice(j).filter(Boolean);
